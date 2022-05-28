@@ -186,6 +186,7 @@ const Board = () => {
       cardDescription: "",
       comments: [],
       listId: addNewCardInListId!,
+      createdBy: getUserName()!,
     };
     addNewCardToList(boardId!, addNewCardInListId!, newCard);
     setAddNewCardInListId(undefined);

@@ -6,6 +6,7 @@ type Card = {
     cardDescription: string;
     listId: string;
     comments: Array<UserComment>;
+    createdBy: string;
 }
 
 export type { Card };

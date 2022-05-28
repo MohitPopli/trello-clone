@@ -42,8 +42,9 @@ const CardDetails = () => {
       <>
         <div className="card-content">
           <h4>{cardDetails.cardTitle}</h4>
+          <span>Card created by <strong>{cardDetails.createdBy}</strong></span>
 
-          <label>Move card</label>
+          <label className="move-card-label">Move card</label>
           {renderAvailableList()}
 
           {cardMoveSuccess && <span>Card is successfully moved!!!</span>}

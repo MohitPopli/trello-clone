@@ -39,8 +39,15 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Node version
+v16.14.0
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Additional features
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Added login feature so that I can have have user details for board and lists.
+2. Card details being displayed
+
+## Features wanted to implement
+1. Adding favorite board
+2. Invite other users on the board to add/edit list
+3. Adding comments in the card
