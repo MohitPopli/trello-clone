@@ -1,0 +1,40 @@
+.new-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: lightgrey;
+    border: none;
+    border-radius: 8px;
+    min-width: 500px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+    color: white;
+    min-width: 100px;
+    border: none;
+    border-radius: 8px;
+}
+
+.close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    width: 25px;
+    height: 25px;
+}
+
+.error-text {
+    color: red;
+    font-size: 14px;
+}

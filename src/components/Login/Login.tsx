@@ -2,6 +2,7 @@ import * as React from "react";
 import { Spinner } from "../../widgets";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { getUserName, setUserName } from "../../utils/LocalstorageUtils";
 
 const Login = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
@@ -10,14 +11,14 @@ const Login = () => {
   const usernameRef = React.useRef<HTMLInputElement>(null);
 
   const getUserInfoFromStorage = () => {
-    const userName = localStorage.getItem("userName");
+    const userName = getUserName();
     return userName;
   };
 
-  const setLoggedInUserAndNavigateToDashboard = () => {
+  const setLoggedInUserAndNavigateToDashboard = React.useCallback(()=>{
     setIsUserLoggedIn(true);
     navigate("/dashboard");
-  };
+  },[navigate])
 
   React.useEffect(() => {
     setLoading(true);
@@ -26,12 +27,12 @@ const Login = () => {
       setLoggedInUserAndNavigateToDashboard();
     }
     setLoading(false);
-  }, []);
+  }, [setLoggedInUserAndNavigateToDashboard]);
 
   const loginHandler = () => {
     const userName = usernameRef.current?.value;
     if (userName) {
-      localStorage.setItem("userName", userName.trim());
+      setUserName(userName.trim());
       setLoggedInUserAndNavigateToDashboard();
     }
   };
@@ -72,7 +73,12 @@ const Login = () => {
               required
             />
           </div>
-          <button type="button" className="login-button" onClick={loginHandler} data-testid="login-btn">
+          <button
+            type="button"
+            className="login-button"
+            onClick={loginHandler}
+            data-testid="login-btn"
+          >
             Login
           </button>
         </form>
