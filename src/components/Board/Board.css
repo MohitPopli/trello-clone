@@ -28,6 +28,7 @@
 .board-list-item {
     display: flex;
     flex-direction: column;
+    margin: 0 1rem;
 }
 
 .board-list {
@@ -62,4 +63,12 @@
 .add-new-list-btn {
     height: 50px;
     margin-left: 1rem;
+}
+.add-new-card-btn {
+    margin: 1rem;
+}
+
+.back-nav-link {
+    display: flex;
+    align-self: baseline;
 }

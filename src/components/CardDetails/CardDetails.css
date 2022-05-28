@@ -1,0 +1,35 @@
+.card-details-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: whitesmoke;
+    border: none;
+    border-radius: 8px;
+    min-width: 500px;
+    min-height: 200px;
+    justify-content: space-between;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-self: flex-end;
+}
+
+.close-card-btn {
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0.5rem;
+}
+
+.move-card-btn {
+    cursor: pointer;
+    text-decoration: none;
+    max-width: 90px;
+
+}

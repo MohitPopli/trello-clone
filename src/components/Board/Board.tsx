@@ -1,7 +1,8 @@
 import * as React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams, Link } from "react-router-dom";
 import { List } from "../../models/List";
 import {
+  addNewCardToList,
   addNewListToBoard,
   getBoardLists,
   updateBoardListName,
@@ -12,6 +13,8 @@ import "./Board.css";
 import { v4 as uuidv4 } from "uuid";
 import { getUserName } from "../../utils/LocalstorageUtils";
 import { keyboardHandlerForEditableContent } from "../../utils/KeyBoardUtil";
+import { ListCard } from "./ListCard/ListCard";
+import { Card } from "../../models/Card";
 
 const Board = () => {
   const { boardId } = useParams();
@@ -19,7 +22,11 @@ const Board = () => {
   const [isLoading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const [showNewListContent, setShowNewListContent] = React.useState(false);
+  const [showNewCardContent, setShowNewCardContent] = React.useState(false);
   const [editableListId, setEditableListId] = React.useState<
+    string | undefined
+  >();
+  const [addNewCardInListId, setAddNewCardInListId] = React.useState<
     string | undefined
   >();
 
@@ -36,7 +43,7 @@ const Board = () => {
       navigate("dashboard");
     }
     setLoading(false);
-  }, [boardId]);
+  }, [boardId, navigate]);
 
   const addNewListButton = () => (
     <Button
@@ -67,6 +74,37 @@ const Board = () => {
   const updateListNameInStore = (listName: string) => {
     updateBoardListName(boardId!, editableListId!, listName);
     setEditableListId(undefined);
+  };
+
+  const renderCards = (list: List) => {
+    return (
+      <>
+        {list.cards.map((item) => (
+          <ListCard
+            id={item.id}
+            title={item.cardTitle}
+            key={item.id}
+            listId={list.id}
+          />
+        ))}
+        <Button
+          title="add new card"
+          aria-describedby="add new card"
+          onClick={(ev) => {
+            setShowNewCardContent(true);
+            setAddNewCardInListId(list.id);
+            ev.stopPropagation()
+          }}
+          id="add-new-list"
+          className="add-new-card-btn"
+        >
+          <div className="btn-content">
+            <img src={AddIcon} className="icon-styles" alt="add icon" />
+            <span>Add Card</span>
+          </div>
+        </Button>
+      </>
+    );
   };
 
   const renderBoardList = () => {
@@ -107,6 +145,7 @@ const Board = () => {
                     );
                   }}
                 />
+                {renderCards(list)}
               </div>
             </div>
           );
@@ -138,8 +177,24 @@ const Board = () => {
     setLoading(false);
   };
 
+  const addNewCardHandler = (cardName: string) => {
+    setShowNewCardContent(false);
+    const cardId = uuidv4();
+    const newCard: Card = {
+      id: cardId,
+      cardTitle: cardName,
+      cardDescription: "",
+      comments: [],
+      listId: addNewCardInListId!,
+    };
+    addNewCardToList(boardId!, addNewCardInListId!, newCard);
+    setAddNewCardInListId(undefined);
+    refreshBoard();
+  };
+
   return (
     <div className="board-wrapper">
+        <Link to="../" className="back-nav-link">Back to dashboard</Link>
       {isLoading && <Spinner id="spinner" />}
       {!isLoading && renderBoardList()}
       {showNewListContent && (
@@ -151,6 +206,19 @@ const Board = () => {
           onCancel={() => setShowNewListContent(false)}
         />
       )}
+      {showNewCardContent && (
+        <NewContent
+          id="new-card"
+          title="Add new card"
+          placeholderText="Please provide card name"
+          onAddContent={addNewCardHandler}
+          onCancel={() => {
+            setShowNewCardContent(false);
+            setAddNewCardInListId(undefined);
+          }}
+        />
+      )}
+      <Outlet />
     </div>
   );
 };
