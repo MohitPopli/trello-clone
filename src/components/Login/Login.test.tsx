@@ -1,16 +1,29 @@
-import { render } from "@testing-library/react";
+import { render, waitForElementToBeRemoved } from "@testing-library/react";
 import { Login } from ".";
 
+const mockedUsedNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...(jest.requireActual("react-router-dom") as any),
+  useNavigate: () => mockedUsedNavigate,
+}));
 describe("Login Tests", () => {
   const renderLogin = () => render(<Login />);
 
-  test("should render login page", () => {
-    const { getByText } = renderLogin();
-    expect(getByText("Login Page")).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
   });
 
-  test("should show loading spinner while retrieving user info from local storage", () => {
-    const { getByTestId } = renderLogin();
-    expect(getByTestId(/^spinner-container$/)).toBeInTheDocument();
+  test("should render login page if user not logged in", () => {
+    const { getByText } = renderLogin();
+    expect(getByText("Login Page")).toBeInTheDocument();
+    expect(mockedUsedNavigate).toHaveBeenCalledTimes(0);
+  });
+
+  test("should user info from local storage and navigated to dashboard page if user is loggedin", () => {
+    localStorage.setItem("userName", "Mohit");
+    renderLogin();
+    expect(mockedUsedNavigate).toHaveBeenCalledTimes(1);
   });
 });
