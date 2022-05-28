@@ -8,4 +8,9 @@ describe("Login Tests", () => {
     const { getByText } = renderLogin();
     expect(getByText("Login Page")).toBeInTheDocument();
   });
+
+  test("should show loading spinner while retrieving user info from local storage", () => {
+    const { getByTestId } = renderLogin();
+    expect(getByTestId(/^spinner-container$/)).toBeInTheDocument();
+  });
 });

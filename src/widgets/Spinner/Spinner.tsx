@@ -1,6 +1,10 @@
 import "./Spinner.css";
-const Spinner = () => (
-  <div className="spinner-container">
+
+type SpinnerProps = {
+  id: string;
+};
+const Spinner = ({ id }: SpinnerProps) => (
+  <div className="spinner-container" data-testid={`${id}-container`}>
     <div className="spinner" />
   </div>
 );
